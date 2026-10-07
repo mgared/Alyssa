@@ -10,7 +10,6 @@ export default function ProjectGrid({ projects }) {
             <Photo src={p.cover} alt={p.name} toneIndex={i} />
           </div>
           <h3 className="card__title">{p.name}</h3>
-          <p className="card__meta">{p.location}</p>
         </Link>
       ))}
     </div>

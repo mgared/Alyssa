@@ -21,7 +21,7 @@ npm run build    # production build in dist/
 
 | Path | Page |
 | --- | --- |
-| `/` | Home: hero slideshow, intro, selected work |
+| `/` | Home: full-width photo slideshow |
 | `/portfolio` | All projects |
 | `/portfolio/:slug` | Project detail gallery |
 | `/contact` | Contact form (opens email) and details |

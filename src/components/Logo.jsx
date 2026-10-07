@@ -1,44 +1,31 @@
-// Refreshed "Design by Labillois" wordmark.
-// An arched monogram (a nod to architecture/doorways) paired with a refined,
-// widely-tracked serif wordmark and a small modern sans subline.
+// Refreshed "Design by Labillois" logo.
+// A hairline arched monogram (a nod to doorways and architecture) above a
+// single-line, widely tracked wordmark.
 
-export function Monogram({ size = 44, color = 'currentColor' }) {
+export function Monogram({ height = 72, color = 'currentColor' }) {
   return (
     <svg
-      width={size}
-      height={size * 1.25}
-      viewBox="0 0 40 50"
+      width={height * 0.75}
+      height={height}
+      viewBox="0 0 60 80"
       fill="none"
+      stroke={color}
+      strokeWidth="1.4"
       aria-hidden="true"
       className="monogram"
     >
-      <path
-        d="M4 49V20C4 11.2 11.2 4 20 4s16 7.2 16 16v29"
-        stroke={color}
-        strokeWidth="1"
-      />
-      <text
-        x="20"
-        y="40"
-        textAnchor="middle"
-        fontFamily="'Italiana', serif"
-        fontSize="27"
-        fill={color}
-      >
-        L
-      </text>
-      <line x1="1" y1="49" x2="39" y2="49" stroke={color} strokeWidth="1" />
+      <path d="M4 80V30C4 15.6 15.6 4 30 4s26 11.6 26 26v50" />
+      <path d="M24 30v38h18" />
     </svg>
   )
 }
 
-export default function Logo({ variant = 'full', className = '' }) {
+export default function Logo({ stacked = true, className = '' }) {
   return (
-    <span className={`logo logo--${variant} ${className}`}>
-      {variant === 'full' && <Monogram />}
-      <span className="logo__text">
-        <span className="logo__kicker">Design by</span>
-        <span className="logo__name">Labillois</span>
+    <span className={`logo ${stacked ? 'logo--stacked' : ''} ${className}`}>
+      {stacked && <Monogram />}
+      <span className="logo__word">
+        <span className="logo__light">Design by</span> <span className="logo__bold">Labillois</span>
       </span>
     </span>
   )

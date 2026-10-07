@@ -1,41 +1,31 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import Photo from '../components/Photo'
-import ProjectGrid from '../components/ProjectGrid'
-import { heroImages, projects, site } from '../data/site'
+import { heroImages } from '../data/site'
 
 export default function Home() {
   const [active, setActive] = useState(0)
+  const count = heroImages.length
+  const go = (step) => setActive((i) => (i + step + count) % count)
 
   useEffect(() => {
-    if (heroImages.length < 2) return
-    const id = setInterval(() => setActive((i) => (i + 1) % heroImages.length), 5500)
+    if (count < 2) return
+    const id = setInterval(() => setActive((i) => (i + 1) % count), 6000)
     return () => clearInterval(id)
-  }, [])
+  }, [active, count])
 
   return (
-    <>
-      <section className="hero" aria-label="Featured work">
-        {heroImages.map((src, i) => (
-          <div key={src} className={`hero__slide ${i === active ? 'is-active' : ''}`}>
-            <Photo src={src} alt="" toneIndex={i + 1} />
-          </div>
-        ))}
-      </section>
-
-      <section className="intro">
-        <p className="eyebrow">{site.title} · {site.location}</p>
-        <h1 className="intro__statement">{site.tagline}</h1>
-        <Link to="/about" className="text-link">About the studio</Link>
-      </section>
-
-      <section className="section">
-        <h2 className="section__title">Selected Work</h2>
-        <ProjectGrid projects={projects.slice(0, 3)} />
-        <div className="center">
-          <Link to="/portfolio" className="button">View Portfolio</Link>
+    <section className="hero" aria-label="Featured work" aria-roledescription="carousel">
+      {heroImages.map((src, i) => (
+        <div key={src} className={`hero__slide ${i === active ? 'is-active' : ''}`} aria-hidden={i !== active}>
+          <Photo src={src} alt="" toneIndex={i + 1} />
         </div>
-      </section>
-    </>
+      ))}
+      {count > 1 && (
+        <>
+          <button className="hero__arrow hero__arrow--prev" onClick={() => go(-1)} aria-label="Previous image">‹</button>
+          <button className="hero__arrow hero__arrow--next" onClick={() => go(1)} aria-label="Next image">›</button>
+        </>
+      )}
+    </section>
   )
 }

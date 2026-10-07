@@ -19,7 +19,7 @@ export default function Brand() {
         <div className="brand__tile" style={{ background: '#F4EFE8', color: '#4A3B31', border: '1px solid var(--line)' }}><Logo /></div>
         <div className="brand__tile" style={{ background: '#A08F82', color: '#F4EFE8' }}><Logo /></div>
         <div className="brand__tile" style={{ background: '#4A3B31', color: '#E8DFD4' }}><Logo /></div>
-        <div className="brand__tile" style={{ background: '#C8BDB1', color: '#4A3B31' }}><Monogram size={80} /></div>
+        <div className="brand__tile" style={{ background: '#C8BDB1', color: '#4A3B31' }}><Monogram height={110} /></div>
       </div>
 
       <div className="brand__swatches">

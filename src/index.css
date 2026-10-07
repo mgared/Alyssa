@@ -7,7 +7,8 @@
   --walnut: #63564b;
   --coffee: #4a3b31;
 
-  --bg: var(--cream);
+  --bg: #faf8f5;
+  --accent: #a07a58;
   --text: var(--coffee);
   --muted: var(--walnut);
   --line: rgba(74, 59, 49, 0.18);
@@ -71,33 +72,27 @@ h3 {
 
 .logo {
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 22px;
   color: inherit;
 }
 
-.logo__text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+.logo__word {
+  font-family: var(--sans);
+  font-size: 17px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  white-space: nowrap;
   line-height: 1;
 }
 
-.logo__kicker {
-  font-family: var(--sans);
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
-  margin-bottom: 6px;
-  padding-left: 2px;
+.logo__light {
+  font-weight: 300;
 }
 
-.logo__name {
-  font-family: var(--serif);
-  font-size: 34px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+.logo__bold {
+  font-weight: 500;
 }
 
 .monogram {
@@ -110,41 +105,29 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 26px;
-  padding: 40px var(--gutter) 28px;
+  gap: 44px;
+  padding: 38px var(--gutter) 22px;
+  background: var(--bg);
   position: relative;
 }
 
 .nav {
   display: flex;
-  gap: clamp(28px, 5vw, 64px);
+  gap: clamp(28px, 3.4vw, 46px);
 }
 
 .nav__link {
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 400;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  position: relative;
-  padding-bottom: 4px;
+  color: var(--muted);
+  transition: color 0.25s ease;
 }
 
-.nav__link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 1px;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.35s ease;
-}
-
-.nav__link:hover::after,
-.nav__link.active::after {
-  transform: scaleX(1);
+.nav__link:hover,
+.nav__link.active {
+  color: var(--accent);
 }
 
 .header__toggle {
@@ -155,21 +138,23 @@ h3 {
   .header {
     flex-direction: row;
     justify-content: space-between;
-    padding-top: 24px;
-    padding-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 18px;
+  }
+
+  .logo {
+    flex-direction: row;
+    gap: 12px;
   }
 
   .header .monogram {
-    width: 30px;
-    height: 38px;
+    width: 27px;
+    height: 36px;
   }
 
-  .logo__name {
-    font-size: 24px;
-  }
-
-  .logo__kicker {
-    font-size: 8px;
+  .logo__word {
+    font-size: 12px;
+    letter-spacing: 0.18em;
   }
 
   .header__toggle {
@@ -177,8 +162,8 @@ h3 {
     flex-direction: column;
     justify-content: center;
     gap: 8px;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     background: none;
     border: 0;
     padding: 0;
@@ -209,7 +194,7 @@ h3 {
     align-items: center;
     justify-content: center;
     gap: 36px;
-    background: var(--cream);
+    background: var(--bg);
     z-index: 10;
     opacity: 0;
     pointer-events: none;
@@ -222,7 +207,7 @@ h3 {
   }
 
   .nav__link {
-    font-size: 14px;
+    font-size: 15px;
   }
 }
 
@@ -252,8 +237,8 @@ h3 {
 
 .hero {
   position: relative;
-  height: min(78vh, 820px);
-  margin: 0 var(--gutter);
+  height: calc(100vh - 230px);
+  min-height: 420px;
   overflow: hidden;
   background: var(--linen);
 }
@@ -262,11 +247,40 @@ h3 {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 1.6s ease;
+  transition: opacity 1.4s ease;
 }
 
 .hero__slide.is-active {
   opacity: 1;
+}
+
+.hero__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: 0;
+  padding: 12px 18px;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.8;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.25);
+  transition: opacity 0.25s ease;
+}
+
+.hero__arrow:hover {
+  opacity: 1;
+}
+
+.hero__arrow--prev {
+  left: 6px;
+}
+
+.hero__arrow--next {
+  right: 6px;
 }
 
 /* ---------- Common ---------- */
@@ -278,7 +292,11 @@ h3 {
 }
 
 .page {
-  padding-top: clamp(32px, 6vw, 72px);
+  padding-top: clamp(24px, 4vw, 40px);
+}
+
+.section--wide {
+  max-width: 1840px;
 }
 
 .page__title {
@@ -374,7 +392,7 @@ h3 {
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(24px, 3vw, 44px) clamp(18px, 2.5vw, 36px);
+  gap: 40px 34px;
 }
 
 @media (max-width: 960px) {
@@ -390,33 +408,29 @@ h3 {
 }
 
 .card__media {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1;
   overflow: hidden;
-  margin-bottom: 18px;
+  margin-bottom: 22px;
 }
 
 .card__media .photo {
-  transition: transform 1s ease, opacity 0.5s ease;
+  transition: opacity 0.4s ease;
 }
 
 .card:hover .card__media .photo {
-  transform: scale(1.04);
-  opacity: 0.92;
+  opacity: 0.85;
 }
 
 .card__title {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 400;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   text-align: center;
 }
 
-.card__meta {
-  margin: 6px 0 0;
-  font-size: 13px;
-  color: var(--muted);
-  text-align: center;
+.card:hover .card__title {
+  color: var(--accent);
 }
 
 /* ---------- Project page ---------- */
@@ -576,30 +590,35 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
-  padding: 56px var(--gutter) 44px;
-  margin-top: 40px;
-  border-top: 1px solid var(--line);
+  gap: 40px;
+  padding: 60px var(--gutter) 70px;
 }
 
 .footer__icons {
   display: flex;
-  gap: 22px;
+  gap: 8px;
 }
 
 .footer__icons a {
   display: inline-flex;
-  transition: color 0.3s ease;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--coffee);
+  color: var(--bg);
+  transition: background 0.25s ease;
 }
 
 .footer__icons a:hover {
-  color: var(--chai);
+  background: var(--accent);
 }
 
 .footer__legal {
   margin: 0;
-  font-size: 10px;
-  letter-spacing: 0.26em;
+  font-size: 11px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
   text-align: center;
@@ -659,6 +678,19 @@ h3 {
 
 @media (max-width: 720px) {
   .hero {
-    height: 62vh;
+    height: 70vh;
   }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.section--wide {
+  padding-bottom: 40px;
 }

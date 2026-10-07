@@ -3,8 +3,8 @@ import { projects } from '../data/site'
 
 export default function Portfolio() {
   return (
-    <section className="section page">
-      <h1 className="page__title">Portfolio</h1>
+    <section className="section section--wide page">
+      <h1 className="visually-hidden">Portfolio</h1>
       <ProjectGrid projects={projects} />
     </section>
   )
