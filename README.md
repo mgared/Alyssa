@@ -31,3 +31,7 @@ npm run build    # production build in dist/
 ## Deploying
 
 Works on Netlify (`public/_redirects`) or Vercel (`vercel.json`). Both are already set up for client-side routing.
+
+## Private preview
+
+`npm run build:preview` bundles the whole site into one file, `dist-preview/labillois-preview.html`, for sharing a preview link before the site goes live.
