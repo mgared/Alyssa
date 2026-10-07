@@ -5,7 +5,8 @@ import { useState } from 'react'
 const tones = ['#c8bdb1', '#a8998b', '#968473', '#d9cfc4', '#7d6d60', '#b9ab9d']
 
 export default function Photo({ src, alt = '', className = '', toneIndex = 0, label }) {
-  const [failed, setFailed] = useState(!src)
+  const [failedSrc, setFailedSrc] = useState(null)
+  const failed = !src || failedSrc === src
 
   if (failed) {
     const a = tones[toneIndex % tones.length]
@@ -28,7 +29,7 @@ export default function Photo({ src, alt = '', className = '', toneIndex = 0, la
       alt={alt}
       className={`photo ${className}`}
       loading="lazy"
-      onError={() => setFailed(true)}
+      onError={() => setFailedSrc(src)}
     />
   )
 }

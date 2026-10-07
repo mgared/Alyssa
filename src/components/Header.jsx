@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import Logo from './Logo'
-import { site } from '../data/site'
+import { instagramUrl, site } from '../data/site'
+import { useContent } from '../lib/content'
 
 const links = [
   { to: '/portfolio', label: 'Portfolio' },
@@ -12,6 +13,7 @@ const links = [
 export default function Header() {
   const [open, setOpen] = useState(false)
   const close = () => setOpen(false)
+  const { content } = useContent()
 
   return (
     <header className="header">
@@ -36,7 +38,7 @@ export default function Header() {
             {l.label}
           </NavLink>
         ))}
-        <a className="nav__link" href={site.instagramUrl} target="_blank" rel="noreferrer" onClick={close}>
+        <a className="nav__link" href={instagramUrl(content.contact.instagramHandle)} target="_blank" rel="noreferrer" onClick={close}>
           Instagram
         </a>
       </nav>

@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
 import Photo from '../components/Photo'
-import { heroImages } from '../data/site'
+import { useContent } from '../lib/content'
 
 export default function Home() {
+  const images = useContent().content.hero.images
+  // With no photos yet, show one placeholder slide.
+  const heroImages = images.length ? images : ['']
   const [active, setActive] = useState(0)
   const count = heroImages.length
+  const current = active % count
   const go = (step) => setActive((i) => (i + step + count) % count)
 
   useEffect(() => {
@@ -16,7 +20,7 @@ export default function Home() {
   return (
     <section className="hero" aria-label="Featured work" aria-roledescription="carousel">
       {heroImages.map((src, i) => (
-        <div key={src} className={`hero__slide ${i === active ? 'is-active' : ''}`} aria-hidden={i !== active}>
+        <div key={`${i}-${src}`} className={`hero__slide ${i === current ? 'is-active' : ''}`} aria-hidden={i !== current}>
           <Photo src={src} alt="" toneIndex={i + 1} />
         </div>
       ))}

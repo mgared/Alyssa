@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Outlet, Route, Routes, useLocation } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -9,6 +9,8 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Brand from './pages/Brand'
 import NotFound from './pages/NotFound'
+import AdminPage from './admin/AdminPage'
+import ContentProvider from './lib/ContentProvider'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -16,13 +18,25 @@ function ScrollToTop() {
   return null
 }
 
-export default function App() {
+function SiteLayout() {
   return (
     <>
-      <ScrollToTop />
       <Header />
       <main>
-        <Routes>
+        <Outlet />
+      </main>
+      <Footer />
+    </>
+  )
+}
+
+export default function App() {
+  return (
+    <ContentProvider>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/admin" element={<AdminPage />} />
+        <Route element={<SiteLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/portfolio/:slug" element={<Project />} />
@@ -30,9 +44,8 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/brand" element={<Brand />} />
           <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
-      <Footer />
-    </>
+        </Route>
+      </Routes>
+    </ContentProvider>
   )
 }

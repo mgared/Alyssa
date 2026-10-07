@@ -1,31 +1,46 @@
 // Central place for all site content. Edit text, contact info, and projects here.
 
+// Fixed brand details that don't change from the admin page.
 export const site = {
   name: 'Design by Labillois',
   designer: 'Alyssa Labillois',
   title: 'Interior Designer',
-  location: 'Boston, MA',
-  email: 'alyssa@designbylabillois.com',
-  phone: '617-721-8820',
-  instagramHandle: 'designbylabillois',
-  instagramUrl: 'https://www.instagram.com/designbylabillois/',
-  tagline: 'Modern, warm interiors rooted in calm neutrals and considered detail.',
 }
 
-// Hero images on the home page. Drop photos into /public/images and list them here.
-// Until real photos are added, a tonal placeholder is shown instead.
-export const heroImages = [
-  '/images/hero-1.jpg',
-  '/images/hero-2.jpg',
-  '/images/hero-3.jpg',
-]
+// Default content. Once the admin backend is connected, anything Alyssa saves
+// from /admin replaces these values on the live site.
+export const defaultContent = {
+  contact: {
+    email: 'alyssa@designbylabillois.com',
+    phone: '617-721-8820',
+    location: 'Boston, MA',
+    instagramHandle: 'designbylabillois',
+  },
+  hero: {
+    // Home page slideshow. Missing files show a tonal placeholder instead.
+    images: ['/images/hero-1.jpg', '/images/hero-2.jpg', '/images/hero-3.jpg'],
+  },
+  about: {
+    photo: '/images/alyssa.jpg',
+    paragraphs: [
+      'Design by Labillois is a Boston-based interior design studio led by Alyssa Labillois. The studio creates modern, livable spaces grounded in a warm, neutral palette: taupes, creams, and rich browns layered with natural materials and texture.',
+      'Every project begins with listening. Alyssa believes a home should feel calm, personal, and effortless to live in, and she balances clean modern lines with softness and warmth so each room feels both elevated and welcoming.',
+      'From full renovations to furnishing and styling, the studio guides clients through every detail with care, from the first concept to the final pillow.',
+    ],
+  },
+}
+
+export const instagramUrl = (handle) => `https://www.instagram.com/${handle}/`
 
 // Portfolio projects. `slug` becomes the URL: /portfolio/<slug>
 // `cover` is the grid thumbnail; `images` are shown on the project page.
+// These are only used until the admin backend is connected.
 // NOTE: these are placeholder projects — replace with Alyssa's real work.
-export const projects = [
+export const defaultProjects = [
   {
+    id: 'back-bay-brownstone',
     slug: 'back-bay-brownstone',
+    published: true,
     name: 'Back Bay Brownstone',
     location: 'Boston, MA',
     scope: 'Full Renovation',
@@ -40,7 +55,9 @@ export const projects = [
     ],
   },
   {
+    id: 'beacon-hill-residence',
     slug: 'beacon-hill-residence',
+    published: true,
     name: 'Beacon Hill Residence',
     location: 'Boston, MA',
     scope: 'Furnishing & Styling',
@@ -54,7 +71,9 @@ export const projects = [
     ],
   },
   {
+    id: 'south-end-loft',
     slug: 'south-end-loft',
+    published: true,
     name: 'South End Loft',
     location: 'Boston, MA',
     scope: 'Interior Architecture',
@@ -68,7 +87,9 @@ export const projects = [
     ],
   },
   {
+    id: 'cape-cod-retreat',
     slug: 'cape-cod-retreat',
+    published: true,
     name: 'Cape Cod Retreat',
     location: 'Chatham, MA',
     scope: 'New Construction',
@@ -82,7 +103,9 @@ export const projects = [
     ],
   },
   {
+    id: 'wellesley-family-home',
     slug: 'wellesley-family-home',
+    published: true,
     name: 'Wellesley Family Home',
     location: 'Wellesley, MA',
     scope: 'Full Home Design',
@@ -96,7 +119,9 @@ export const projects = [
     ],
   },
   {
+    id: 'seaport-condo',
     slug: 'seaport-condo',
+    published: true,
     name: 'Seaport Condo',
     location: 'Boston, MA',
     scope: 'Furnishing & Styling',

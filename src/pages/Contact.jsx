@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import { site } from '../data/site'
+import { instagramUrl } from '../data/site'
+import { useContent } from '../lib/content'
 
 // The form opens the visitor's email app with the message pre-filled.
 // To receive submissions directly instead, swap the handler for a service
 // like Formspree or Netlify Forms.
 export default function Contact() {
+  const { contact } = useContent().content
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
 
   const update = (e) => setForm({ ...form, [e.target.name]: e.target.value })
@@ -13,7 +15,7 @@ export default function Contact() {
     e.preventDefault()
     const subject = `New inquiry from ${form.name}`
     const body = `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\n\n${form.message}`
-    window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
   return (
@@ -46,10 +48,10 @@ export default function Contact() {
 
         <aside className="contact__details">
           <p className="eyebrow">Get in touch</p>
-          <a href={`mailto:${site.email}`}>{site.email}</a>
-          <a href={`tel:${site.phone.replace(/\D/g, '')}`}>{site.phone}</a>
-          <a href={site.instagramUrl} target="_blank" rel="noreferrer">@{site.instagramHandle}</a>
-          <span>{site.location}</span>
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          {contact.phone && <a href={`tel:${contact.phone.replace(/\D/g, '')}`}>{contact.phone}</a>}
+          <a href={instagramUrl(contact.instagramHandle)} target="_blank" rel="noreferrer">@{contact.instagramHandle}</a>
+          <span>{contact.location}</span>
         </aside>
       </div>
     </section>

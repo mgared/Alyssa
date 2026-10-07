@@ -1,10 +1,13 @@
 import { Link, useParams } from 'react-router-dom'
 import Photo from '../components/Photo'
 import NotFound from './NotFound'
-import { projects } from '../data/site'
+import { useContent } from '../lib/content'
 
 export default function Project() {
   const { slug } = useParams()
+  const { projects, loading } = useContent()
+  if (loading) return null
+
   const index = projects.findIndex((p) => p.slug === slug)
   if (index === -1) return <NotFound />
 
@@ -22,7 +25,7 @@ export default function Project() {
       <div className="project__gallery">
         {project.images.map((src, i) => (
           <Photo
-            key={src}
+            key={`${i}-${src}`}
             src={src}
             alt={`${project.name} — image ${i + 1}`}
             toneIndex={index + i}
