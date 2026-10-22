@@ -36,7 +36,9 @@ export default function Project() {
 
       <nav className="project__nav">
         <Link to="/portfolio" className="text-link">All Projects</Link>
-        <Link to={`/portfolio/${next.slug}`} className="text-link">Next: {next.name}</Link>
+        {next !== project && (
+          <Link to={`/portfolio/${next.slug}`} className="text-link">Next: {next.name}</Link>
+        )}
       </nav>
     </article>
   )

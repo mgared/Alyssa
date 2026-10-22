@@ -11,6 +11,10 @@ import { defaultContent, defaultProjects } from '../data/site'
 const url = import.meta.env.VITE_SUPABASE_URL
 const key = import.meta.env.VITE_SUPABASE_KEY
 
+// Read before createClient, which consumes the hash. Supabase announces the
+// recovery with an event that can fire before the admin page subscribes.
+export const arrivedFromPasswordReset = /[#&]type=recovery\b/.test(window.location.hash)
+
 const supabase = url && key ? createClient(url, key) : null
 
 export const isDemo = !supabase

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { api, isDemo } from '../lib/api'
+import { api, arrivedFromPasswordReset, isDemo } from '../lib/api'
 import { Monogram } from '../components/Logo'
 import Login from './Login'
 import SetPassword from './SetPassword'
@@ -9,7 +9,7 @@ import './admin.css'
 
 export default function AdminPage() {
   const [session, setSession] = useState(undefined) // undefined while checking
-  const [recovering, setRecovering] = useState(false)
+  const [recovering, setRecovering] = useState(arrivedFromPasswordReset)
 
   useEffect(() => {
     let alive = true
