@@ -13,6 +13,9 @@ export default function Project() {
 
   const project = projects[index]
   const next = projects[(index + 1) % projects.length]
+  // The cover leads the gallery unless it is already one of the gallery photos.
+  const photos =
+    project.cover && !project.images.includes(project.cover) ? [project.cover, ...project.images] : project.images
 
   return (
     <article className="section page project">
@@ -23,7 +26,7 @@ export default function Project() {
       </header>
 
       <div className="project__gallery">
-        {project.images.map((src, i) => (
+        {photos.map((src, i) => (
           <Photo
             key={`${i}-${src}`}
             src={src}

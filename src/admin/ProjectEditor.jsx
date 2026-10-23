@@ -68,7 +68,7 @@ export default function ProjectEditor({ project, onSave, onCancel }) {
 
       <SingleImageField
         label="Cover photo"
-        hint="Shown in the portfolio grid, cropped to a square."
+        hint="Shown in the portfolio grid, cropped to a square, and first on the project page."
         value={draft.cover}
         folder="projects"
         onChange={set('cover')}
