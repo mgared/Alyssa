@@ -7,7 +7,7 @@ export default function ProjectGrid({ projects }) {
       {projects.map((p, i) => (
         <Link key={p.slug} to={`/portfolio/${p.slug}`} className="card">
           <div className="card__media">
-            <Photo src={p.cover} alt={p.name} toneIndex={i} />
+            <Photo src={p.cover} alt={p.name} toneIndex={i} thumb />
           </div>
           <h3 className="card__title">{p.name}</h3>
         </Link>

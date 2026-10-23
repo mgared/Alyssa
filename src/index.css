@@ -471,6 +471,88 @@ h3 {
   }
 }
 
+.project__photo {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.project__photo:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ---------- Lightbox ---------- */
+
+.lightbox {
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #241d18;
+  color: var(--cream);
+}
+
+.lightbox::backdrop {
+  background: transparent;
+}
+
+body:has(.lightbox[open]) {
+  overflow: hidden;
+}
+
+.lightbox__stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px clamp(12px, 7vw, 96px);
+}
+
+.lightbox__img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.lightbox__count {
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  opacity: 0.8;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  padding: 6px 14px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: 34px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.lightbox__close:hover {
+  opacity: 1;
+}
+
 .project__nav {
   display: flex;
   justify-content: space-between;
