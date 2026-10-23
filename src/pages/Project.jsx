@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import Lightbox from '../components/Lightbox'
 import Photo from '../components/Photo'
 import NotFound from './NotFound'
 import { useContent } from '../lib/content'
@@ -6,6 +8,7 @@ import { useContent } from '../lib/content'
 export default function Project() {
   const { slug } = useParams()
   const { projects, loading } = useContent()
+  const [viewing, setViewing] = useState(null) // index of the photo open full screen
   if (loading) return null
 
   const index = projects.findIndex((p) => p.slug === slug)
@@ -27,15 +30,21 @@ export default function Project() {
 
       <div className="project__gallery">
         {photos.map((src, i) => (
-          <Photo
+          <button
             key={`${i}-${src}`}
-            src={src}
-            alt={`${project.name} — image ${i + 1}`}
-            toneIndex={index + i}
-            className={i % 3 === 0 ? 'is-wide' : ''}
-          />
+            type="button"
+            className={`project__photo ${i % 3 === 0 ? 'is-wide' : ''}`}
+            onClick={() => setViewing(i)}
+            aria-label={`View image ${i + 1} full screen`}
+          >
+            <Photo src={src} alt={`${project.name} — image ${i + 1}`} toneIndex={index + i} />
+          </button>
         ))}
       </div>
+
+      {viewing !== null && (
+        <Lightbox photos={photos} index={viewing} onIndex={setViewing} onClose={() => setViewing(null)} title={project.name} />
+      )}
 
       <nav className="project__nav">
         <Link to="/portfolio" className="text-link">All Projects</Link>

@@ -1,19 +1,22 @@
 import { useState } from 'react'
 import { ImageListField, SingleImageField } from './ImageFields'
 import SaveBar from './SaveBar'
-import { resolve, slugify } from './utils'
+import { api } from '../lib/api'
+import { resolve, slugify, useDraftPhotos } from './utils'
 
 export default function ProjectEditor({ project, onSave, onCancel }) {
   const [draft, setDraft] = useState(project)
   // New projects take their web address from the name until it's edited by hand.
   const [slugTouched, setSlugTouched] = useState(Boolean(project.id))
   const [state, setState] = useState({ busy: false, error: '' })
+  const photos = useDraftPhotos(project)
 
   const set = (name) => (next) =>
     setDraft((d) => {
       const value = resolve(next, d[name])
       const updated = { ...d, [name]: value }
       if (name === 'name' && !slugTouched) updated.slug = slugify(value)
+      photos.track(updated)
       return updated
     })
 
@@ -24,8 +27,16 @@ export default function ProjectEditor({ project, onSave, onCancel }) {
     try {
       await onSave({ ...draft, name: draft.name.trim() })
     } catch (err) {
-      setState({ busy: false, error: err.message })
+      return setState({ busy: false, error: err.message })
     }
+    // Saved: delete photos that were removed, replaced, or uploaded and dropped.
+    await api.removeImages(photos.unused(draft))
+  }
+
+  // Uploads from this edit are discarded along with it.
+  const cancel = () => {
+    api.removeImages(photos.unused(project))
+    onCancel()
   }
 
   const text = (name, label, props = {}) => (
@@ -93,7 +104,7 @@ export default function ProjectEditor({ project, onSave, onCancel }) {
         busy={state.busy}
         error={state.error}
         onSave={save}
-        onCancel={onCancel}
+        onCancel={cancel}
         saveLabel={project.id ? 'Save project' : 'Add project'}
       />
     </section>

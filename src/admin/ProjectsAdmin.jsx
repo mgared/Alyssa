@@ -3,7 +3,8 @@ import { api } from '../lib/api'
 import { useContent } from '../lib/content'
 import ProjectEditor from './ProjectEditor'
 import Photo from '../components/Photo'
-import { collectUrls, emptyProject, removedUrls } from './utils'
+import { useDragSort } from './dragDrop'
+import { collectUrls, emptyProject, moveItem } from './utils'
 
 export default function ProjectsAdmin() {
   const { reload } = useContent()
@@ -45,21 +46,20 @@ export default function ProjectsAdmin() {
     }
   }
 
+  // ProjectEditor deletes photos the saved project no longer uses.
   const save = async (draft) => {
-    const before = projects.find((p) => p.id === draft.id)
     await api.saveProject(draft, projects.length)
-    if (before) await api.removeImages(removedUrls(before, draft))
     setEditing(null)
     setMessage(`Saved ${draft.name}. The live site is updated.`)
     await refresh()
   }
 
-  const move = (i, step) => {
-    const ids = projects.map((p) => p.id)
-    ;[ids[i], ids[i + step]] = [ids[i + step], ids[i]]
-    setProjects(ids.map((id) => projects.find((p) => p.id === id)))
-    run(() => api.reorderProjects(ids), 'Order saved.')
+  const move = (from, to) => {
+    const reordered = moveItem(projects, from, to)
+    setProjects(reordered)
+    run(() => api.reorderProjects(reordered.map((p) => p.id)), 'Order saved.')
   }
+  const { dragProps, dragClass } = useDragSort(move)
 
   const remove = (project) =>
     run(async () => {
@@ -78,7 +78,7 @@ export default function ProjectsAdmin() {
         <h2 className="adm-title">Portfolio</h2>
         <button type="button" className="adm-btn" onClick={() => setEditing({ ...emptyProject })}>New project</button>
       </div>
-      <p className="adm-muted">Projects appear on the site in this order. Use the arrows to rearrange them.</p>
+      <p className="adm-muted">Projects appear on the site in this order. Drag them or use the arrows to rearrange them.</p>
 
       {error && <p className="adm-error" role="alert">{error}</p>}
       {message && <p className="adm-ok" role="status">{message}</p>}
@@ -90,9 +90,9 @@ export default function ProjectsAdmin() {
       ) : (
         <ul className="adm-list">
           {projects.map((p, i) => (
-            <li key={p.id} className="adm-list__item">
+            <li key={p.id} className={`adm-list__item ${dragClass(i)}`} {...dragProps(i)}>
               <div className="adm-thumb adm-thumb--small">
-                <Photo src={p.cover} alt="" toneIndex={i} />
+                <Photo src={p.cover} alt="" toneIndex={i} thumb />
               </div>
               <div className="adm-list__info">
                 <strong>{p.name}</strong>
@@ -110,8 +110,8 @@ export default function ProjectsAdmin() {
                 </div>
               ) : (
                 <div className="adm-row adm-list__tools">
-                  <button type="button" className="adm-icon" onClick={() => move(i, -1)} disabled={i === 0} aria-label={`Move ${p.name} up`}>↑</button>
-                  <button type="button" className="adm-icon" onClick={() => move(i, 1)} disabled={i === projects.length - 1} aria-label={`Move ${p.name} down`}>↓</button>
+                  <button type="button" className="adm-icon" onClick={() => move(i, i - 1)} disabled={i === 0} aria-label={`Move ${p.name} up`}>↑</button>
+                  <button type="button" className="adm-icon" onClick={() => move(i, i + 1)} disabled={i === projects.length - 1} aria-label={`Move ${p.name} down`}>↓</button>
                   <button type="button" className="adm-btn adm-btn--ghost" onClick={() => setEditing(p)}>Edit</button>
                   <button type="button" className="adm-link" onClick={() => setConfirmDelete(p.id)}>Delete</button>
                 </div>

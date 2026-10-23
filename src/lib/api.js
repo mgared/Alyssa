@@ -72,6 +72,14 @@ const storagePath = (publicUrl) => {
   return i === -1 ? null : decodeURIComponent(publicUrl.slice(i + marker.length))
 }
 
+// Each upload has a small copy beside it: <name>.thumb.jpg
+const thumbPath = (path) => path.replace(/\.jpg$/, '.thumb.jpg')
+
+// The small copy of an uploaded photo, or null for photos that have none
+// (bundled defaults, demo uploads). Photos uploaded before thumbnails existed
+// return a URL that 404s; <Photo thumb> then falls back to the full image.
+export const thumbnailOf = (url) => (storagePath(url)?.endsWith('.jpg') ? thumbPath(url) : null)
+
 const supabaseApi = {
   async loadSite() {
     const [projects, content] = await Promise.all([
@@ -110,16 +118,27 @@ const supabaseApi = {
     check(await supabase.from('site_content').upsert({ key, value }))
   },
 
-  async uploadImage(blob, folder) {
+  async uploadImage({ full, thumb }, folder) {
     const path = `${folder}/${crypto.randomUUID()}.jpg`
-    check(await supabase.storage.from(BUCKET).upload(path, blob, { contentType: blob.type || 'image/jpeg' }))
-    return supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl
+    const bucket = supabase.storage.from(BUCKET)
+    // Only the full photo must succeed; without a thumbnail the full one loads instead.
+    const [result] = await Promise.all([
+      bucket.upload(path, full, { contentType: 'image/jpeg' }),
+      bucket.upload(thumbPath(path), thumb, { contentType: 'image/jpeg' }),
+    ])
+    check(result)
+    return bucket.getPublicUrl(path).data.publicUrl
   },
 
   // Best effort: a leftover file costs a little storage, never a broken page.
   async removeImages(urls) {
-    const paths = urls.map(storagePath).filter(Boolean)
-    if (paths.length) await supabase.storage.from(BUCKET).remove(paths)
+    const paths = urls.map(storagePath).filter(Boolean).flatMap((p) => [p, thumbPath(p)])
+    if (!paths.length) return
+    try {
+      await supabase.storage.from(BUCKET).remove(paths)
+    } catch {
+      // Ignored, see above.
+    }
   },
 
   async getSession() {
@@ -198,8 +217,8 @@ const demoApi = {
     demo.content[key] = structuredClone(value)
   },
 
-  async uploadImage(blob) {
-    return URL.createObjectURL(blob)
+  async uploadImage({ full }) {
+    return URL.createObjectURL(full)
   },
 
   async removeImages() {},
