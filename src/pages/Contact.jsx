@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { InstagramIcon, MailIcon, PhoneIcon, PinIcon } from '../components/Icons'
 import { instagramUrl } from '../data/site'
 import { useContent } from '../lib/content'
 
@@ -48,10 +49,26 @@ export default function Contact() {
 
         <aside className="contact__details">
           <p className="eyebrow">Get in touch</p>
-          <a href={`mailto:${contact.email}`}>{contact.email}</a>
-          {contact.phone && <a href={`tel:${contact.phone.replace(/\D/g, '')}`}>{contact.phone}</a>}
-          <a href={instagramUrl(contact.instagramHandle)} target="_blank" rel="noreferrer">@{contact.instagramHandle}</a>
-          <span>{contact.location}</span>
+          <a className="contact__row" href={`mailto:${contact.email}`}>
+            <MailIcon size={18} />
+            {contact.email}
+          </a>
+          {contact.phone && (
+            <a className="contact__row" href={`tel:${contact.phone.replace(/\D/g, '')}`}>
+              <PhoneIcon size={18} />
+              {contact.phone}
+            </a>
+          )}
+          <a className="contact__row" href={instagramUrl(contact.instagramHandle)} target="_blank" rel="noreferrer">
+            <InstagramIcon size={18} />
+            @{contact.instagramHandle}
+          </a>
+          {contact.location && (
+            <span className="contact__row">
+              <PinIcon size={18} />
+              {contact.location}
+            </span>
+          )}
         </aside>
       </div>
     </section>
