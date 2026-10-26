@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import Logo from './Logo'
 import { instagramUrl, site } from '../data/site'
 import { useContent } from '../lib/content'
 
@@ -18,7 +17,7 @@ export default function Header() {
   return (
     <header className="header">
       <Link to="/" className="header__logo" onClick={close} aria-label={`${site.name} — home`}>
-        <Logo />
+        <img className="header__brand" src="/logo.png" alt="" width="739" height="279" />
       </Link>
 
       <button

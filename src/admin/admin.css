@@ -1,8 +1,16 @@
 /* Studio admin. Shares the site's tokens; denser and more utilitarian. */
 
 .adm {
+  /* Light theme for the admin; the public site is dark. */
+  --bg: #faf8f5;
+  --accent: #a07a58;
+  --text: var(--coffee);
+  --muted: var(--walnut);
+  --line: rgba(74, 59, 49, 0.18);
+
   min-height: 100vh;
   background: var(--sand);
+  color: var(--text);
   font-size: 15px;
 }
 

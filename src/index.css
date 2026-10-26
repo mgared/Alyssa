@@ -7,11 +7,13 @@
   --walnut: #63564b;
   --coffee: #4a3b31;
 
-  --bg: #faf8f5;
-  --accent: #a07a58;
-  --text: var(--coffee);
-  --muted: var(--walnut);
-  --line: rgba(74, 59, 49, 0.18);
+  /* Site theme: white on a deep version of the logo's taupe (#a79c91).
+     The admin restores a light theme in admin.css. */
+  --bg: #6e655d;
+  --accent: var(--sand);
+  --text: #fff;
+  --muted: rgba(255, 255, 255, 0.85);
+  --line: rgba(255, 255, 255, 0.28);
 
   --serif: 'Italiana', 'Cormorant Garamond', Georgia, serif;
   --sans: 'Jost', 'Helvetica Neue', Arial, sans-serif;
@@ -69,6 +71,12 @@ h3 {
 }
 
 /* ---------- Logo ---------- */
+
+.header__brand {
+  display: block;
+  width: clamp(200px, 22vw, 280px);
+  height: auto;
+}
 
 .logo {
   display: inline-flex;
@@ -140,6 +148,10 @@ h3 {
     justify-content: space-between;
     padding-top: 20px;
     padding-bottom: 18px;
+  }
+
+  .header__brand {
+    width: 150px;
   }
 
   .logo {
@@ -354,7 +366,7 @@ h3 {
 
 .button:hover {
   background: var(--text);
-  color: var(--cream);
+  color: var(--bg);
 }
 
 .text-link {
@@ -368,7 +380,7 @@ h3 {
 }
 
 .text-link:hover {
-  color: var(--chai);
+  color: var(--accent);
 }
 
 /* ---------- Intro ---------- */
@@ -663,7 +675,18 @@ body:has(.lightbox[open]) {
 }
 
 .contact__details a:hover {
-  color: var(--chai);
+  color: var(--accent);
+}
+
+.contact__row {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  overflow-wrap: anywhere;
+}
+
+.contact__row svg {
+  flex-shrink: 0;
 }
 
 /* ---------- Footer ---------- */
@@ -688,7 +711,7 @@ body:has(.lightbox[open]) {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: var(--coffee);
+  background: var(--text);
   color: var(--bg);
   transition: background 0.25s ease;
 }
