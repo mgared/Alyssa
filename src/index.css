@@ -74,7 +74,7 @@ h3 {
 
 .header__brand {
   display: block;
-  width: clamp(200px, 22vw, 280px);
+  width: clamp(160px, 16vw, 210px);
   height: auto;
 }
 
@@ -151,7 +151,7 @@ h3 {
   }
 
   .header__brand {
-    width: 150px;
+    width: 120px;
   }
 
   .logo {
