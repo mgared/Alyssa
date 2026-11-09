@@ -59,8 +59,23 @@ Alyssa goes to `/admin`, signs in with the temporary password, and can choose he
 
 The live site starts empty because nothing is in the database yet. The placeholder projects only appear in demo mode. Once she adds her projects, slideshow photos and bio, the site shows them right away; there is no rebuild or redeploy.
 
+## 8. Keep the project awake
+
+Free projects pause after 7 days without activity, which also takes the site's content offline. A scheduled GitHub Action keeps it awake for free:
+
+1. On GitHub, open the repository's **Settings → Secrets and variables → Actions → New repository secret**, and add:
+   - `SUPABASE_URL`: the Project URL
+   - `SUPABASE_KEY`: the publishable (anon) key, the same one the website uses
+2. Open the **Actions** tab, choose **Keep Supabase awake**, and click **Run workflow** once to check that it goes green.
+
+It then runs by itself every 3 days. If a run fails, GitHub emails the repository owner. The usual cause is that the project is already paused: restore it from the Supabase dashboard (within 90 days of pausing).
+
+GitHub turns off scheduled workflows in repositories with no commits for 60 days and emails a warning first. Clicking **Enable workflow** in the Actions tab turns it back on.
+
+If a project is paused: open it in the Supabase dashboard and click **Restore project**. Nothing is lost; restoring takes a few minutes.
+
 ## Notes
 
 - Photos are resized in the browser to at most 2400 px on the long side before upload, so phone and camera files stay fast to load.
 - When she removes a photo and saves, the file is deleted from storage too.
-- Free Supabase projects pause after a week with no activity. Visitors to the site count as activity, but if the site gets no traffic for a week, open the project in the dashboard to wake it.
+- Free Supabase projects pause after 7 days with no activity. The **Keep Supabase awake** GitHub Action (`.github/workflows/keep-supabase-awake.yml`) prevents this by reading from the database every 3 days. See "Keep the project awake" below.
